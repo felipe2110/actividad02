@@ -1,0 +1,6 @@
+.container{
+    scroll-snap-type: x mandatory;
+}
+.child{
+    scroll-snap-align: start;
+}
