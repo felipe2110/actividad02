@@ -15,33 +15,34 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{route('guias.update',$guias->id)}}" enctype="multipart/form-data" method="post">
+                        <form action="{{route('apendices.update',$guias->id)}}" enctype="multipart/form-data" method="post">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
-                                <label for="">Nombre</label>
-                                <input type="text" class="form-control" name="nombre" value="{{$guias->nombre}}">
+                                <label for="">Nombres y Apellidos</label>
+                                <input type="text" class="form-control" name="nombre">
                             </div>
                             <div class="form-group">
-                                <label for="">Tema</label>
-                                <input type="text" class="form-control" name="tema" value="{{$guias->tema}}">
+                                <label for="">Correo</label>
+                                <input type="email" class="form-control" name="correo">
                             </div>
                             <div class="form-group">
-                                <label for="">Descripcion</label>
-                                <input class="form-control" id="description" name="descripcion" rows="3" value="{{$guias->descripcion}}"></input>
+                                <label for="">Género</label>
+                                <input class="form-control" id="description" name="genero" list="genero" rows="3">
+                                <datalist id ="genero">
+                                    <option value="Femenino"></option>
+                                    <option value="Masculino"></option>
+                                    <option value="Otro"></option>
+                                </datalist>
                             </div>
                             <div class="form-group">
-                                <label for="">Duración en Horas</label>
-                                <input type="number" class="form-control" name="duracion" value="{{$guias->duracion}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Guia en pdf</label>
-                                <input class="form-control" type="file" id="formFile" name="guia">
+                                <label for="">Ficha</label>
+                                <input type="text" class="form-control" name="Ficha">
                             </div>
                             <hr>
                             <div class="form-group">
-                                <button class="btn btn-primary">Editar</button>
-                                <a href="{{url('guias')}}" class="btn btn-dark">Cancelar</a>
+                                <button class="btn btn-primary">Crear</button>
+                                <a href="{{url('aprendices')}}" class="btn btn-dark">Cancelar</a>
                             </div>
 
                         </form>

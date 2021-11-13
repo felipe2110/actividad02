@@ -27,7 +27,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Género</label>
-                                <input class="form-control" id="description" name="genero" list="genero" rows="3"></input>
+                                <input class="form-control" id="description" name="genero" list="genero" rows="3">
                                 <datalist id ="genero">
                                     <option value="Femenino"></option>
                                     <option value="Masculino"></option>
