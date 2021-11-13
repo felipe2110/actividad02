@@ -24,7 +24,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Aprendiz</label>
-                                <input type="text" class="form-control" name="tema">
+                                <select id="Select" class="form-select"  name="companie_id">
+                                    @foreach($aprendices as $aprendiz)
+                                    <option value="{{$aprendiz -> id}}"  {{ $aprendiz -> id == $guis -> aprendices_id ? 'selected' : '' }}>{{$aprendiz -> name}}</option>
+                                    @endforeach()
+                                </select>
                             </div>
                             <hr>
                             <div class="form-group">

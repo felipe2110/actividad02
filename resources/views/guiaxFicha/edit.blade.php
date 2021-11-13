@@ -8,32 +8,30 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
-            <title>Crear Guia</title>
+            <title>Editar asignción de Guía</title>
         </head>
 
         <body>
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{route('guiasxusuario.store')}}" enctype="multipart/form-data" method="post">
+                        <form action="{{route('guias.update',$guias->id)}}" enctype="multipart/form-data" method="post">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
                                 <label for="">Guía</label>
                                 <input type="text" class="form-control" name="nombre">
                             </div>
                             <div class="form-group">
-                                <label for="">Aprendiz</label>
-                                <select id="Select" class="form-select" name="aprendiz_id">
-                                    @foreach($aprendices as $aprendiz)
-                                    <option  value="{{$aprendiz -> id}}">{{$aprendiz -> name}}</option>
-                                    @endforeach()
-                                </select>
+                                <label for="">Ficha</label>
+                                <input type="text" class="form-control" name="tema">
                             </div>
                             <hr>
                             <div class="form-group">
-                                <button class="btn btn-primary">Asignar Guia</button>
+                                <button class="btn btn-primary">Editar Asignación de Guía</button>
                                 <a href="{{url('guias')}}" class="btn btn-dark">Cancelar</a>
                             </div>
+
                         </form>
                     </div>
                 </div>

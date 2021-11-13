@@ -22,16 +22,16 @@
                                 <input type="text" class="form-control" name="nombre">
                             </div>
                             <div class="form-group">
-                                <label for="">Aprendiz</label>
-                                <select id="Select" class="form-select" name="aprendiz_id">
-                                    @foreach($aprendices as $aprendiz)
-                                    <option  value="{{$aprendiz -> id}}">{{$aprendiz -> name}}</option>
+                                <label for="">Ficha </label>
+                                <select id="Select" class="form-select" name="ficha">
+                                    @foreach($fichas as $ficha)
+                                    <option  value="{{$ficha -> id}}">{{$ficha -> name}}</option>
                                     @endforeach()
                                 </select>
                             </div>
                             <hr>
                             <div class="form-group">
-                                <button class="btn btn-primary">Asignar Guia</button>
+                                <button class="btn btn-primary">Asignar Guiaa Ficha</button>
                                 <a href="{{url('guias')}}" class="btn btn-dark">Cancelar</a>
                             </div>
                         </form>

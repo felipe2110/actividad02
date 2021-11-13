@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\aprendicesController;
 use App\Http\Controllers\guiasController;
+use App\Http\Controllers\guiasxusuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,5 +32,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::middleware(['role:instructor'])->group(function () {
         Route::resource('aprendices',aprendicesController::class);
+    });
+});
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::middleware(['role:instructor'])->group(function () {
+        Route::resource('guiasxusuario',guiasxusuarioController::class);
     });
 });
