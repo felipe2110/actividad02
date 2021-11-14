@@ -18,7 +18,8 @@
                     <div class="col-md-12">
                         <br />
                         @role('instructor')
-                        <a href="{{url('apendices/create')}}" class="btn btn-primary">Crear Guia</a>
+                        <a href="{{url('aprendices/create')}}" class="btn btn-primary">Crear Aprendiz</a>
+                        <a href="{{url('asignar-guias/asignarGuiaFicha')}}" class="btn btn-success">Asignar Guía a una Ficha</a>
                         @endrole
                         @if(session('status'))
                         <div class="alert alert-success mt-3">
@@ -34,14 +35,14 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>NOMBRE</th>
-                                        <th>TEMA</th>
-                                        <th>DESCRIPCIÓN</th>
-                                        <th>DURACIÓN</th>
+                                        <th>EMAIL</th>
+                                        <th>GÉNERO</th>
+                                        <th>FICHA</th>
                                         <th>ACCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($aprendices as $aprendiz)
+                                    @foreach($users as $aprendiz)
                                     <tr>
                                         <td>{{$aprendiz -> id}}</td>
                                         <td>{{$aprendiz -> name}}</td>
@@ -52,6 +53,7 @@
                                             <form action="{{route('aprendices.destroy',$aprendiz->id)}}" method="post">
                                                 @csrf
                                                 @method('DELETE')
+                                                <a href="{{route('asignar-guias.asignarGuiaUsuario',$aprendiz->id)}}" class="btn btn-sm btn-success">Asignar Guía</a>
                                                 <a href="{{route('aprendices.show',$aprendiz->id)}}" class="btn btn-sm btn-info">Detalles</a>
                                                 <a href="{{route('aprendices.edit',$aprendiz->id)}}" class="btn btn-sm btn-warning">Editar</a>
                                                 <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
@@ -63,7 +65,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{$aprendiz-> links()}}
                     </div>
                 </div>
             </div>

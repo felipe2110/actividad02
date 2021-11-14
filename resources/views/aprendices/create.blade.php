@@ -19,11 +19,11 @@
                             @csrf
                             <div class="form-group">
                                 <label for="">Nombres y Apellidos</label>
-                                <input type="text" class="form-control" name="nombre">
+                                <input type="text" class="form-control" name="name">
                             </div>
                             <div class="form-group">
                                 <label for="">Correo</label>
-                                <input type="email" class="form-control" name="correo">
+                                <input type="email" class="form-control" name="email">
                             </div>
                             <div class="form-group">
                                 <label for="">Género</label>
@@ -36,7 +36,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Ficha</label>
-                                <input type="text" class="form-control" name="Ficha">
+                                <input type="text" class="form-control" name="ficha">
+                                <datalist id ="ficha">
+                                @foreach($ficha as $ficha)
+                                    <option  value="{{$ficha -> ficha}}">{{$ficha -> ficha}}</option>
+                                    @endforeach()
+                                </datalist>
                             </div>
                             <hr>
                             <div class="form-group">

@@ -8,7 +8,7 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-            <title>Aprendiz: {{$aprendices->name}}</title>
+            <title>Aprendiz: {{$user->name}}</title>
         </head>
 
         <body>
@@ -22,19 +22,19 @@
                             <table class="table table-striped mt-3">
                                 <tr>
                                     <th>NOMBRE</th>
-                                    <td>{{$aprendices->name}}</td>
+                                    <td>{{$user->name}}</td>
                                 </tr>
                                 <tr>
                                     <th>CORREO</th>
-                                    <td>{{$aprendices->email}}</td>
+                                    <td>{{$user->email}}</td>
                                 </tr>
                                 <tr>
                                     <th>GÉNERO</th>
-                                    <td>{{$aprendices->genero}}</td>
+                                    <td>{{$aprendiz->genero}}</td>
                                 </tr>
                                 <tr>
                                     <th>FICHA</th>
-                                    <td>{{$aprendices->ficha}}</td>
+                                    <td>{{$aprendiz->ficha}}</td>
                                 </tr>
                             </table>
                         </div>

@@ -15,8 +15,8 @@ class CreateGuiasxsuariosTable extends Migration
     {
         Schema::create('guiasxsuarios', function (Blueprint $table) {
             $table->id();
-            $table->biginteger('aprendices_id')->unsigned();
-            $table->foreign('aprendices_id')->references('id')->on('aprendices');
+            $table->biginteger('users_id')->unsigned();
+            $table->foreign('users_id')->references('id')->on('users');
             $table->biginteger('guias_id')->unsigned();
             $table->foreign('guias_id')->references('id')->on('guias');
             $table->timestamps();

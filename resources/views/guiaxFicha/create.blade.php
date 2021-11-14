@@ -15,24 +15,28 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <form action="{{route('guiasxusuario.store')}}" enctype="multipart/form-data" method="post">
+                        <form action="{{route('asignar-guias.guardarAsignarGuiaFicha')}}" enctype="multipart/form-data" method="post">
                             @csrf
                             <div class="form-group">
                                 <label for="">Guía</label>
-                                <input type="text" class="form-control" name="nombre">
+                                <select id="Select" class="form-select" name="guia_id">
+                                    @foreach($guias as $guia)
+                                    <option  value="{{$guia -> id}}">{{$guia -> nombre}}</option>
+                                    @endforeach()
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="">Ficha </label>
-                                <select id="Select" class="form-select" name="ficha">
-                                    @foreach($fichas as $ficha)
-                                    <option  value="{{$ficha -> id}}">{{$ficha -> name}}</option>
+                                <select id="Select" class="form-select" name="aprendiz_id">
+                                    @foreach($ficha as $ficha)
+                                    <option  value="{{$ficha -> ficha}}">{{$ficha -> ficha}}</option>
                                     @endforeach()
                                 </select>
                             </div>
                             <hr>
                             <div class="form-group">
-                                <button class="btn btn-primary">Asignar Guiaa Ficha</button>
-                                <a href="{{url('guias')}}" class="btn btn-dark">Cancelar</a>
+                                <button class="btn btn-primary">Asignar Guia a Ficha</button>
+                                <a href="{{url('aprendices')}}" class="btn btn-dark">Cancelar</a>
                             </div>
                         </form>
                     </div>

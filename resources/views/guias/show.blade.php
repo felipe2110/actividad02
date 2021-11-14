@@ -39,7 +39,7 @@
                                 <tr>
                                     <th>Guía de Aprendizaje</th>
                                     <td>
-                                        <iframe src="{{ asset('uploads/guias/'. $guias->guia_aprendizaje)}}" >
+                                        <iframe src="{{ asset('uploads/guias/'. $guias->guia_aprendizaje)}}" width="500px" height="800px">
                                     </td>
                                 </tr>
 

@@ -6,6 +6,7 @@ use App\Models\aprendices;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class aprendicesController extends Controller
 {
@@ -16,9 +17,10 @@ class aprendicesController extends Controller
      */
     public function index()
     {
-        $users = User::join('aprendices', 'users.id', '=', 'aprendices.users_id')
-               ->get(['users.*', 'aprendices.*'])::paginate(8);
-
+        $users = DB::table('users')
+        ->join('aprendices', 'users.id', '=', 'aprendices.users_id')
+        ->select('users.id', 'users.name', 'users.email', 'aprendices.genero','aprendices.ficha')
+        ->get();
         return view('aprendices.index', compact('users'));
     }
 
@@ -29,7 +31,12 @@ class aprendicesController extends Controller
      */
     public function create()
     {
-        return view('aprendices.create');
+        $ficha = DB::table('users')
+        ->join('aprendices', 'users.id', '=', 'aprendices.users_id')
+        ->select('aprendices.ficha')
+        ->groupBy('aprendices.ficha')
+        ->get();
+        return view('aprendices.create',compact('ficha'));
     }
 
     /**
@@ -39,15 +46,15 @@ class aprendicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    
+
     {
         $user = User::create([
-            'name'=>$request->input('nombre'),
+            'name'=>$request->input('name'),
             'email'=>$request->input('email'),
             'password'=> Hash::make('SENAaprendiz2021'),
         ]);
         $user->assignRole('aprendiz');
-        
+
         $aprendiz = aprendices::create([
             'genero' => $request->input('genero'),
             'ficha' => $request->input('ficha'),
@@ -65,9 +72,9 @@ class aprendicesController extends Controller
      */
     public function show( $id)
     {
-        $aprendiz = User::find($id)::join('aprendices', 'users.id', '=', 'aprendices.users_id')
-        ->get(['users.*', 'aprendices.*']);
-        return view('apendices.show', compact('apendiz'));
+        $user = User::find($id);
+        $aprendiz = aprendices::where('users_id', $user->id)->first();
+        return view('aprendices.show', compact('user'), compact('aprendiz'));
     }
 
     /**
@@ -78,9 +85,14 @@ class aprendicesController extends Controller
      */
     public function edit( $id)
     {
-        $aprendiz = User::find($id)::join('aprendices', 'users.id', '=', 'aprendices.users_id')
-        ->get(['users.*', 'aprendices.*']);
-        return view('apendices.edit', compact('apendiz'));
+        $user = User::find($id);
+        $aprendiz = aprendices::where('users_id', $user->id)->first();
+        $ficha = DB::table('users')
+        ->join('aprendices', 'users.id', '=', 'aprendices.users_id')
+        ->select('aprendices.ficha')
+        ->groupBy('aprendices.ficha')
+        ->get();
+        return view('aprendices.edit')->with(compact('ficha'))->with(compact('user'))->with(compact('aprendiz'));
     }
 
     /**
@@ -92,17 +104,14 @@ class aprendicesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $user =User::find($id)->update([
-            'name'=>$request->input('nombre'),
+            'name'=>$request->input('name'),
             'email'=>$request->input('email'),
         ]);
-        $user->assignRole('aprendiz');
-        
-        $aprendiz =aprendices::find( $user->id)->update([
+        $aprendiz = aprendices::where('users_id', $id)->first()->update([
             'genero' => $request->input('genero'),
             'ficha' => $request->input('ficha'),
-            'users_id'=>$user->id,
         ]);
         return redirect('aprendices')->with('status', 'Se ha actualizado correctamente');
 
@@ -115,26 +124,12 @@ class aprendicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy( $id)
-    
+
     {
+        $aprendiz = aprendices::where('users_id', $id)->first()->delete();
         $user = User::find($id)->delete();
-        $apendiz = User::find($user->Id)->delete();
         return redirect('aprendices')->with('status', 'Se ha eliminado correctamente');
     }
-    public function asignar_guia(Request $request, $id)
-    
-    {
-        $user =User::find($id)->update([
-            'name'=>$request->input('nombre'),
-            'email'=>$request->input('email'),
-        ]);
-        $user->assignRole('aprendiz');
-        
-        $aprendiz =aprendices::find( $user->id)->update([
-            'genero' => $request->input('genero'),
-            'ficha' => $request->input('ficha'),
-            'users_id'=>$user->id,
-        ]);
-        return redirect('aprendices')->with('status', 'Se ha actualizado correctamente');
-    }
+
+
 }

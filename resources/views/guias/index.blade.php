@@ -54,8 +54,10 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <a href="{{route('guias.show',$guia->id)}}" class="btn btn-sm btn-info">Detalles</a>
+                                                @role('instructor')
                                                 <a href="{{route('guias.edit',$guia->id)}}" class="btn btn-sm btn-warning">Editar</a>
                                                 <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                                                @endrole
                                             </form>
                                         </td>
 

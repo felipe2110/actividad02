@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class guiasxusuarios extends Model
 {
     use HasFactory;
-    protected $table ='guiasxusuarios';
+    protected $table ='guiasxsuarios';
     protected $primaryKey = 'id';
-    protected $fillable =['aprendices_id','guias_id'];
+    protected $fillable =['users_id','guias_id'];
 }
