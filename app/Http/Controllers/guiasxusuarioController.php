@@ -13,8 +13,8 @@ class guiasxusuarioController extends Controller
     public function index($id)
     {
         $guias  = DB::table('guiasxsuarios')
-        ->join('guias', 'guias.id', '=', 'guiasxsuarios.guias_id')
-        ->select('guias.id', 'guias.nombre', 'guias.descripcion', 'guias.tema', 'guias.duracion')
+            ->join('guias', 'guias.id', '=', 'guiasxsuarios.guias_id')
+            ->select('guias.id', 'guias.nombre', 'guias.descripcion', 'guias.tema', 'guias.duracion')
             ->where('users_id', $id)
             ->get();
 
@@ -34,11 +34,19 @@ class guiasxusuarioController extends Controller
 
     public function storeAsignarGuiaUsuario(Request $request)
     {
-        $user = guiasxusuarios::create([
-            'users_id' => $request->input('aprendiz_id'),
-            'guias_id' => $request->input('guia_id'),
-        ]);
-        return redirect('aprendices')->with('status', 'Guía Asignada correctamente');
+        if (guiasxusuarios::where([
+            ['users_id', '=', $request->input('aprendiz_id')],
+            ['guias_id', '=', $request->input('guia_id')],
+        ])->exists()) {
+            return redirect('aprendices')->with('status', 'El aprendiz ya cuenta con la guía asignada');
+        } else {
+            $user = guiasxusuarios::create([
+                'users_id' => $request->input('aprendiz_id'),
+                'guias_id' => $request->input('guia_id'),
+            ]);
+            return redirect('aprendices')->with('status', 'Guía Asignada correctamente');
+        }
+
     }
 
     public function asignarGuiaFicha()
@@ -54,16 +62,23 @@ class guiasxusuarioController extends Controller
     public function guardarAsignarGuiaFicha(Request $request)
     {
         $ficha = $request->input('aprendiz_id');
+
         $users = User::join('aprendices', 'users.id', '=', 'aprendices.users_id')
             ->where('aprendices.ficha', $ficha)
-            ->get(['users.*', 'aprendices.*']);
+            ->get(['users.id']);
 
-        foreach ($users as $key => $data) {
-            guiasxusuarios::create([
-                'users_id' => $data->id,
-                'guias_id' => $request->input('guia_id'),
-            ]);
+        foreach ($users as $user) {
+            if (guiasxusuarios::where([
+                ['users_id', '=', $user->id],
+                ['guias_id', '=', $request->input('guia_id')],
+            ])->exists()) {
+            } else {
+                guiasxusuarios::create([
+                    'users_id' => $user->id,
+                    'guias_id' => $request->input('guia_id'),
+                ]);
+            }
         }
-        return redirect('aprendices')->with('status', 'Se ha creado correctamente');
+        return redirect('aprendices')->with('status', 'Guía Asignada correctamente');
     }
 }

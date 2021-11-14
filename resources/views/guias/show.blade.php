@@ -17,7 +17,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <br />
-                        <a href="{{url('guias')}}" class="btn btn-warning">Ir al inicio</a>
+                        @role('aprendiz')
+                        <a href="{{ url('Mis-guias',Auth::user()->id)}}">
+                            {{ __('Ir al Inicio') }}
+                        </a>
+                        @endrole
+                        @role('instructor')
+                        <a href="{{ url('guias') }}" >
+                            {{ __('Ir al inicio') }}
+                        </a>
+                        @endrole
                         <div class="table-responsive">
                             <table class="table table-striped mt-3">
                                 <tr>
