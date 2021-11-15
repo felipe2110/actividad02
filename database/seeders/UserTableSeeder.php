@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\aprendices;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -26,6 +27,11 @@ class UserTableSeeder extends Seeder
             'name'=>'Aprendiz',
             'email'=>'Aprendiz@gmail.com',
             'password'=> Hash::make('password'),
+        ]);
+        $aprendiz = aprendices::create([
+            'genero' => 'Masculino',
+            'ficha' => '2067469',
+            'users_id'=>$user->id,
         ]);
         $user->assignRole('aprendiz');
     }
