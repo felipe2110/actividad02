@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\guias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 
 class guiasController extends Controller
 {
@@ -88,16 +89,14 @@ class guiasController extends Controller
     public function update(Request $request,  $id)
     {
         $guias = guias::find($id);
-        $guias->nombre= $request->input('nombre');
-        $guias->tema= $request->input('tema');
+        $guias->nombre = $request->input('nombre');
+        $guias->tema = $request->input('tema');
         $guias->descripcion = $request->input('descripcion');
         $guias->duracion = $request->input('duracion');
 
-        if ($request->hasFile('fileImage'))
-        {
+        if ($request->hasFile('fileImage')) {
             $destination = 'uploads/guias/' . $guias->guia_aprendizaje;
-            if (File::exists($destination))
-            {
+            if (File::exists($destination)) {
                 File::delete($destination);
             }
             $file = $request->file('fileImage');
@@ -107,9 +106,8 @@ class guiasController extends Controller
             $guias->image = $filename;
         }
 
-    $guias->update();
+        $guias->update();
         return redirect('guias')->with('status', 'Se ha actualizado correctamente');
-
     }
 
     /**
@@ -125,6 +123,9 @@ class guiasController extends Controller
         if (File::exists($destination)) {
             File::delete($destination);
         }
+        $guiasxusuario = DB::table('guiasxsuarios')
+            ->where('guias_id', $id)
+            ->delete();
         $guias = guias::find($id)->delete();
         return redirect(('guias'))->with('status', 'Se ha eliminado correctamente');
     }

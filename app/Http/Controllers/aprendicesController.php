@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\aprendices;
 use App\Models\User;
+use App\Models\guias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +19,9 @@ class aprendicesController extends Controller
     public function index()
     {
         $users = DB::table('users')
-        ->join('aprendices', 'users.id', '=', 'aprendices.users_id')
-        ->select('users.id', 'users.name', 'users.email', 'aprendices.genero','aprendices.ficha')
-        ->get();
+            ->join('aprendices', 'users.id', '=', 'aprendices.users_id')
+            ->select('users.id', 'users.name', 'users.email', 'aprendices.genero', 'aprendices.ficha')
+            ->get();
         return view('aprendices.index', compact('users'));
     }
 
@@ -32,11 +33,11 @@ class aprendicesController extends Controller
     public function create()
     {
         $ficha = DB::table('users')
-        ->join('aprendices', 'users.id', '=', 'aprendices.users_id')
-        ->select('aprendices.ficha')
-        ->groupBy('aprendices.ficha')
-        ->get();
-        return view('aprendices.create',compact('ficha'));
+            ->join('aprendices', 'users.id', '=', 'aprendices.users_id')
+            ->select('aprendices.ficha')
+            ->groupBy('aprendices.ficha')
+            ->get();
+        return view('aprendices.create', compact('ficha'));
     }
 
     /**
@@ -49,19 +50,18 @@ class aprendicesController extends Controller
 
     {
         $user = User::create([
-            'name'=>$request->input('name'),
-            'email'=>$request->input('email'),
-            'password'=> Hash::make('SENAaprendiz2021'),
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make('SENAaprendiz2021'),
         ]);
         $user->assignRole('aprendiz');
 
         $aprendiz = aprendices::create([
             'genero' => $request->input('genero'),
             'ficha' => $request->input('ficha'),
-            'users_id'=>$user->id,
+            'users_id' => $user->id,
         ]);
         return redirect('aprendices')->with('status', 'Se ha creado correctamente');
-
     }
 
     /**
@@ -70,11 +70,16 @@ class aprendicesController extends Controller
      * @param  \App\Models\aprendices  $aprendices
      * @return \Illuminate\Http\Response
      */
-    public function show( $id)
+    public function show($id)
     {
         $user = User::find($id);
         $aprendiz = aprendices::where('users_id', $user->id)->first();
-        return view('aprendices.show', compact('user'), compact('aprendiz'));
+        $guias =  DB::table('guiasxsuarios')
+        ->join('guias', 'guias.id', '=', 'guiasxsuarios.guias_id')
+        ->select('guias.id', 'guias.nombre', 'guias.descripcion', 'guias.tema', 'guias.duracion')
+        ->where('users_id', $user->id)
+        ->get();
+        return view('aprendices.show',)->with(compact('user'))->with(compact('aprendiz'))->with(compact('guias'));
     }
 
     /**
@@ -83,15 +88,15 @@ class aprendicesController extends Controller
      * @param  \App\Models\aprendices  $aprendices
      * @return \Illuminate\Http\Response
      */
-    public function edit( $id)
+    public function edit($id)
     {
         $user = User::find($id);
         $aprendiz = aprendices::where('users_id', $user->id)->first();
         $ficha = DB::table('users')
-        ->join('aprendices', 'users.id', '=', 'aprendices.users_id')
-        ->select('aprendices.ficha')
-        ->groupBy('aprendices.ficha')
-        ->get();
+            ->join('aprendices', 'users.id', '=', 'aprendices.users_id')
+            ->select('aprendices.ficha')
+            ->groupBy('aprendices.ficha')
+            ->get();
         return view('aprendices.edit')->with(compact('ficha'))->with(compact('user'))->with(compact('aprendiz'));
     }
 
@@ -105,16 +110,15 @@ class aprendicesController extends Controller
     public function update(Request $request, $id)
     {
 
-        $user =User::find($id)->update([
-            'name'=>$request->input('name'),
-            'email'=>$request->input('email'),
+        $user = User::find($id)->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
         ]);
         $aprendiz = aprendices::where('users_id', $id)->first()->update([
             'genero' => $request->input('genero'),
             'ficha' => $request->input('ficha'),
         ]);
         return redirect('aprendices')->with('status', 'Se ha actualizado correctamente');
-
     }
 
     /**
@@ -123,13 +127,11 @@ class aprendicesController extends Controller
      * @param  \App\Models\aprendices  $aprendices
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $id)
+    public function destroy($id)
 
     {
         $aprendiz = aprendices::where('users_id', $id)->first()->delete();
         $user = User::find($id)->delete();
         return redirect('aprendices')->with('status', 'Se ha eliminado correctamente');
     }
-
-
 }

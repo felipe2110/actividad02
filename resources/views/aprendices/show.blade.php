@@ -18,6 +18,10 @@
                     <div class="col-md-12">
                         <br />
                         <a href="{{url('aprendices')}}" class="btn btn-warning">Ir al inicio</a>
+                        <br />
+                        <figure class="text-center">
+                            <h5>Aprendiz</h5>
+                        </figure>
                         <div class="table-responsive">
                             <table class="table table-striped mt-3">
                                 <tr>
@@ -36,6 +40,46 @@
                                     <th>FICHA</th>
                                     <td>{{$aprendiz->ficha}}</td>
                                 </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <figure class="text-center">
+                            <h5>Guías Asignadas</h5>
+                        </figure>
+                        <div class="table-responsive">
+                            <table class="table table-striped mt-1">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>NOMBRE</th>
+                                        <th>TEMA</th>
+                                        <th>DESCRIPCIÓN</th>
+                                        <th>DURACIÓN</th>
+                                        <th>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($guias as $guia)
+                                    <tr>
+                                        <td>{{$guia -> id}}</td>
+                                        <td>{{$guia -> nombre}}</td>
+                                        <td>{{$guia -> tema}}</td>
+                                        <td>{{$guia -> descripcion}}</td>
+                                        <td>{{$guia -> duracion}}</td>
+                                        <td>
+                                                <a href="{{route('guias.show',$guia->id)}}" class="btn btn-sm btn-info">Detalles</a>
+                                        </td>
+
+                                    </tr>
+                                    @endforeach()
+                                </tbody>
                             </table>
                         </div>
                     </div>
